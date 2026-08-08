@@ -1,0 +1,172 @@
+/* Main Navbar */
+.Navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 64px;
+
+    background-color: #000;
+    color: white;
+
+    z-index: 1000;
+}
+
+/* Navigation */
+nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+}
+
+/* ---------------- LEFT HALF ---------------- */
+
+.left-half {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Spotify Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+
+    object-fit: contain;
+}
+
+/* Home Button */
+.Home-button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #1f1f1f;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+/* Search Bar */
+.Search-bar {
+    width: 400px;
+    height: 45px;
+    background-color: #1f1f1f;
+    border-radius: 25px;
+
+    display: flex;
+    align-items: center;
+}
+
+/* Search Icon */
+.search-icon {
+    margin-left: 15px;
+    font-size: 18px;
+    color: #b3b3b3;
+}
+
+/* Input */
+.input-box {
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: white;
+
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+/* Browse icon */
+.browse {
+    padding: 0 15px;
+    font-size: 18px;
+    color: #b3b3b3;
+}
+
+
+/* ---------------- MIDDLE HALF ---------------- */
+
+.mid-half {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.mid-half p {
+    margin: 0;
+    color: #b3b3b3;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mid-half p:hover {
+    color: rgb(255, 99, 3);
+}
+
+
+/* ---------------- RIGHT HALF ---------------- */
+
+.right-half {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Install App */
+.Install {
+    color: #b3b3b3;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.Install:hover {
+    color: white;
+}
+
+/* Sign Up */
+.sign-up {
+    color: #b3b3b3;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sign-up:hover {
+    color: white;
+}
+
+/* Login Button */
+.login-button {
+    background-color: white;
+    color: black;
+
+    border: none;
+    border-radius: 25px;
+
+    padding: 12px 25px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.login-button:hover {
+    transform: scale(1.04);
+}

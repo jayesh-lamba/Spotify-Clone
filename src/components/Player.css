@@ -1,0 +1,233 @@
+/* =========================
+   PLAYER
+   ========================= */
+
+.Player {
+    position: fixed;
+    bottom: 0;
+    left: 260px;
+
+    width: calc(100% - 260px);
+    height: 90px;
+
+    background-color: #181818;
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    z-index: 900;
+}
+.album-image {
+    width: 56px;
+    height: 56px;
+
+    object-fit: cover;
+
+    border-radius: 4px;
+
+    flex-shrink: 0;
+
+    margin-right: 12px;
+}
+
+
+/* =========================
+   LEFT PLAYER
+   ========================= */
+
+.left-player {
+    width: 30%;
+
+    display: flex;
+    align-items: center;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.song-name {
+    margin: 0 0 5px 0;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.artist-name {
+    margin: 0;
+
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+
+/* =========================
+   CENTER PLAYER
+   ========================= */
+
+.center-player {
+    width: 40%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Player buttons */
+
+.player-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    margin-bottom: 10px;
+}
+
+.previous,
+.play-pause,
+.next {
+    cursor: pointer;
+
+    color: #b3b3b3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.previous:hover,
+.next:hover {
+    color: rgb(255, 128, 0);
+}
+
+
+/* Play button */
+
+.play-pause {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background-color: rgb(255, 115, 1);
+    color: black;
+
+    font-size: 14px;
+}
+
+.play-pause:hover {
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   PROGRESS BAR
+   ========================= */
+
+.progress-container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.progress-container span {
+    color: #b3b3b3;
+
+    font-size: 11px;
+}
+
+
+/* Background bar */
+
+.progress-bar {
+    flex: 1;
+
+    height: 4px;
+
+    background-color: #8b3800;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+}
+
+
+/* Progress */
+
+.progress {
+    width: 35%;
+    height: 100%;
+
+    background-color: rgb(255, 98, 0);
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   RIGHT PLAYER
+   ========================= */
+
+.right-player {
+    width: 30%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 18px;
+}
+
+
+/* Icons */
+
+.queue,
+.volume-icon {
+    color: #fa7500;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+.queue:hover,
+.volume-icon:hover {
+    color: rgb(255, 200, 0);
+}
+
+
+/* =========================
+   VOLUME SLIDER
+   ========================= */
+
+.volume-slider {
+    width: 100px;
+    height: 4px;
+
+    background-color: #4d4d4d;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.volume {
+    width: 70%;
+    height: 100%;
+
+    background-color: white;
+
+    border-radius: 10px;
+}

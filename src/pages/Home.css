@@ -1,0 +1,308 @@
+/* =========================
+   HOME CONTAINER
+   ========================= */
+
+.Home {
+    margin-left: 260px;
+    padding: 30px 35px 120px 35px;
+
+    min-height: calc(100vh - 64px);
+
+    background-color: #121212;
+    color: white;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   SECTION
+   ========================= */
+
+.Home section {
+    margin-bottom: 45px;
+}
+
+
+/* =========================
+   SECTION HEADINGS
+   ========================= */
+
+.Home h2 {
+    font-size: 24px;
+    margin: 0 0 20px 0;
+
+    color: white;
+}
+
+
+/* =========================
+   SONG GRID
+   ========================= */
+
+.song-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+
+/* =========================
+   SONG CARD
+   ========================= */
+
+.song-card {
+    background-color: #181818;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.song-card:hover {
+    background-color: #282828;
+
+    transform: translateY(-3px);
+}
+
+
+/* Song image */
+
+.song-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border-radius: 6px;
+
+    margin-bottom: 12px;
+}
+
+.song-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* Song title */
+
+.song-card p {
+    margin: 0 0 5px 0;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Artist */
+
+.song-card span {
+    color: #b3b3b3;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   ALBUM GRID
+   ========================= */
+
+.album-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+
+/* =========================
+   ALBUM CARD
+   ========================= */
+
+.album-card {
+    background-color: #181818;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.album-card:hover {
+    background-color: #282828;
+
+    transform: translateY(-3px);
+}
+
+
+/* Album image */
+
+.album-card img {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 6px;
+
+    margin-bottom: 12px;
+}
+
+
+/* Album title */
+
+.album-card h3 {
+    margin: 0 0 5px 0;
+
+    font-size: 15px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Album artist */
+
+.album-card p {
+    margin: 0;
+
+    color: #b3b3b3;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   TRENDING SONGS
+   ========================= */
+
+.song-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+/* Individual trending song */
+
+.trending-song {
+    display: grid;
+
+    grid-template-columns: 40px 1fr 1fr;
+
+    align-items: center;
+
+    padding: 12px 15px;
+
+    border-radius: 6px;
+
+    color: #b3b3b3;
+
+    cursor: pointer;
+}
+
+
+/* Hover */
+
+.trending-song:hover {
+    background-color: #282828;
+
+    color: white;
+}
+
+
+/* Number */
+
+.trending-song span {
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* Song name */
+
+.trending-song p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1000px) {
+
+    .song-grid,
+    .album-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .Sidebar {
+        width: 200px;
+    }
+
+    .Home {
+        margin-left: 200px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .song-grid,
+    .album-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .Sidebar {
+        width: 70px;
+    }
+
+    .Home {
+        margin-left: 70px;
+        padding: 20px 15px 120px;
+    }
+
+    .song-grid,
+    .album-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
