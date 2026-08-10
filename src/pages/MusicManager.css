@@ -1,0 +1,625 @@
+/* ================================================================
+   ORIVIO — MUSIC MANAGER PAGE  (MusicManager.css)
+================================================================ */
+
+/* ── Page layout ── */
+.MusicManager-page {
+  margin-left: 260px;
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
+  padding: 32px 32px 140px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+/* ── Page Header ── */
+.mm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.mm-header-left .mm-badge {
+  color: var(--accent-orange);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.mm-header h1 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.mm-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+  max-width: 480px;
+}
+
+.mm-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── Buttons ── */
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mm-btn:hover  { transform: translateY(-1px); }
+.mm-btn:active { transform: translateY(0); }
+.mm-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.mm-btn-primary {
+  background: var(--accent-orange);
+  color: #000;
+}
+.mm-btn-primary:hover { background: var(--accent-hover, #e68900); }
+
+.mm-btn-secondary {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.mm-btn-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-orange);
+}
+
+.mm-btn-active {
+  background: rgba(255, 149, 0, 0.12);
+  color: var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+.mm-btn-danger {
+  background: rgba(255, 107, 107, 0.12);
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.35);
+}
+.mm-btn-danger:hover { background: rgba(255, 107, 107, 0.22); }
+
+/* ── Scan Result Banner ── */
+.mm-scan-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  position: relative;
+  animation: mmFadeIn 0.3s ease;
+}
+
+.mm-scan-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+.mm-scan-stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.mm-scan-stats span {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+}
+
+.mm-scan-stats strong {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.mm-dismiss-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: background-color 0.15s;
+}
+.mm-dismiss-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.mm-scan-errors {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle, var(--border-color));
+  font-size: 12px;
+  color: #ff6b6b;
+}
+.mm-scan-errors ul { margin: 6px 0 0 16px; }
+.mm-scan-errors li { margin-bottom: 3px; }
+
+/* ── Filter Bar ── */
+.mm-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.mm-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 16px;
+  gap: 10px;
+  flex: 1;
+  max-width: 380px;
+  transition: border-color 0.2s;
+}
+.mm-search-box:focus-within { border-color: var(--accent-orange); }
+.mm-search-box i { color: var(--text-muted); font-size: 13px; }
+.mm-search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-input);
+  font-size: 13px;
+  width: 100%;
+}
+
+.mm-clear-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+}
+.mm-clear-btn:hover { color: var(--text-primary); }
+
+.mm-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.mm-filters select {
+  background: var(--bg-input);
+  color: var(--text-input);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 12px;
+  outline: none;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.mm-filters select:focus { border-color: var(--accent-orange); }
+
+.mm-count-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 5px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* ── State Panels ── */
+.mm-state-panel {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+
+.mm-icon-large { font-size: 42px; margin-bottom: 14px; display: block; }
+.mm-icon-orange { color: var(--accent-orange); }
+
+.mm-state-panel h3 {
+  font-size: 20px;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+.mm-state-panel p { font-size: 14px; margin: 0; }
+
+/* ── Song Table ── */
+.mm-table-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  overflow-x: auto;
+  box-shadow: 0 8px 30px var(--shadow-color, rgba(0,0,0,0.18));
+}
+
+.mm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.mm-table thead th {
+  background: var(--bg-card-elevated);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.mm-table tbody td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.05));
+  vertical-align: middle;
+}
+
+.mm-row:last-child td { border-bottom: none; }
+
+.mm-row:hover { background: var(--bg-hover); }
+.mm-row-missing { background: rgba(255, 107, 107, 0.04) !important; }
+
+.mm-col-idx   { color: var(--text-muted); font-size: 11.5px; width: 32px; }
+.mm-col-cover { width: 52px; }
+.mm-col-cover img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  display: block;
+}
+
+.mm-title-text  { font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+.mm-artist-text { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+.mm-col-album    { color: var(--text-secondary); }
+.mm-col-duration { color: var(--text-muted); white-space: nowrap; }
+
+.mm-col-path code {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border-subtle, var(--border-color));
+  max-width: 200px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+/* Pills */
+.mm-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mm-pill-avail  { background: rgba(34,197,94,0.12);   color: #22c55e; }
+.mm-pill-missing{ background: rgba(255,107,107,0.15); color: #ff6b6b; }
+
+/* Icon action buttons */
+.mm-col-actions { display: flex; gap: 6px; align-items: center; }
+
+.mm-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11.5px;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+  flex-shrink: 0;
+}
+.mm-icon-btn:hover { transform: scale(1.12); }
+
+.mm-icon-btn-play   { background: var(--accent-orange); color: #000; }
+.mm-icon-btn-edit   { background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-color); }
+.mm-icon-btn-lyrics { background: var(--bg-input); color: var(--accent-orange); border: 1px solid var(--border-color); }
+
+/* ═══════════════════════════
+   MODALS
+═══════════════════════════ */
+.mm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: mmFadeIn 0.2s ease;
+}
+
+.mm-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  width: 520px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  animation: mmSlideUp 0.25s ease;
+}
+
+.mm-modal-lg { width: 680px; }
+
+.mm-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 18px;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 1;
+  border-radius: 18px 18px 0 0;
+}
+
+.mm-modal-head h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mm-edit-icon { font-size: 14px; }
+
+.mm-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: background-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+.mm-modal-close:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+/* Tabs */
+.mm-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 20px;
+  background: var(--bg-card-elevated);
+  gap: 0;
+}
+
+.mm-tab {
+  padding: 12px 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.mm-tab:hover        { color: var(--text-secondary); }
+.mm-tab-active       { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+
+/* Modal body */
+.mm-modal-body { padding: 24px; }
+
+/* Form fields */
+.mm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.mm-field label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.mm-field label em {
+  font-style: normal;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.mm-field input,
+.mm-field textarea,
+.mm-field select {
+  background: var(--bg-input);
+  color: var(--text-input);
+  border: 1px solid var(--border-color);
+  padding: 10px 14px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13.5px;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.mm-field input:focus,
+.mm-field textarea:focus {
+  border-color: var(--accent-orange);
+}
+
+.mm-field input[type="file"] {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.mm-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.mm-hint code {
+  background: var(--bg-input);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.mm-file-count {
+  font-size: 12.5px;
+  color: var(--accent-orange);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Metadata 2-col grid */
+.mm-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 18px;
+}
+
+.mm-field-full { grid-column: 1 / -1; }
+
+/* Modal footer */
+.mm-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* Lyrics editor */
+.mm-lyrics-editor textarea {
+  resize: vertical;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Artwork editor */
+.mm-artwork-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mm-artwork-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mm-artwork-preview img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  display: block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.mm-artwork-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── Animations ── */
+@keyframes mmFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes mmSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .MusicManager-page { margin-left: 220px; }
+}
+
+@media (max-width: 768px) {
+  .MusicManager-page {
+    margin-left: 0;
+    padding: 24px 16px 120px;
+  }
+
+  .mm-header { flex-direction: column; }
+
+  /* Hide heavier columns on mobile */
+  .hide-sm { display: none; }
+
+  .mm-search-box { max-width: 100%; }
+
+  .mm-meta-grid { grid-template-columns: 1fr; }
+  .mm-field-full { grid-column: 1; }
+
+  .mm-modal { border-radius: 14px; }
+  .mm-modal-lg { width: 95vw; }
+
+  .mm-tabs { padding: 0 12px; }
+  .mm-tab  { padding: 10px 12px; font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  .mm-header-actions { width: 100%; }
+  .mm-btn            { flex: 1; justify-content: center; }
+  .mm-scan-stats     { gap: 12px; }
+  .mm-scan-stats > div { min-width: 60px; }
+}

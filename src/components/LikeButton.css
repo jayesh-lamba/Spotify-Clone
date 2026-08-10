@@ -1,0 +1,46 @@
+/* ── LikeButton ── */
+.like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.15s ease, color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.like-btn--md {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+.like-btn--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.like-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    transform: scale(1.15);
+}
+
+.like-btn--liked {
+    color: var(--accent-orange) !important;
+}
+
+.like-btn--liked:hover {
+    color: var(--accent-hover) !important;
+    background: rgba(255, 149, 0, 0.12);
+}
+
+.like-btn:active {
+    transform: scale(0.88);
+}

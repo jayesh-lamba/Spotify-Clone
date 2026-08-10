@@ -1,0 +1,435 @@
+/* ===========================
+   ARTIST PAGE
+=========================== */
+
+.artist-page {
+  margin-left: 260px;
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
+  padding-bottom: 140px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+
+.artist-page-loading,
+.artist-page-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 60vh;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.artist-page-error i { font-size: 48px; color: var(--text-muted); }
+.artist-page-error h2 { margin: 0; font-size: 22px; color: var(--text-primary); }
+
+.artist-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-orange);
+  border-radius: 50%;
+  animation: aspin 0.8s linear infinite;
+}
+
+@keyframes aspin { to { transform: rotate(360deg); } }
+
+.artist-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.artist-back-btn:hover { background: var(--bg-hover); }
+
+/* ── Hero ── */
+.artist-hero {
+  position: relative;
+  padding: 60px 32px 40px;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.artist-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  filter: blur(50px) saturate(1.5);
+  opacity: 0.25;
+  transform: scale(1.1);
+  pointer-events: none;
+}
+
+.artist-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, var(--bg-primary) 100%);
+  pointer-events: none;
+}
+
+.artist-hero-content {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  align-items: flex-end;
+}
+
+.artist-avatar-wrapper {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 3px solid var(--border-color);
+}
+
+.artist-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artist-info { flex: 1; min-width: 0; }
+
+.artist-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.artist-page .artist-name {
+  font-size: clamp(26px, 5vw, 52px);
+  font-weight: 900;
+  margin: 0 0 12px;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.artist-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.artist-listeners {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.artist-listeners i { color: var(--accent-orange); }
+
+.artist-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.artist-genre-tag {
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid rgba(255, 149, 0, 0.25);
+  color: var(--accent-orange);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.artist-bio {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
+  line-height: 1.6;
+  max-width: 520px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.artist-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.artist-play-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 24px;
+  border: none;
+  background: var(--accent-orange);
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+}
+
+.artist-play-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.artist-play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.artist-queue-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.artist-queue-btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--accent-orange);
+}
+
+.artist-queue-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Songs ── */
+.artist-songs { padding: 24px 32px 0; }
+
+.artist-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.artist-section-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.artist-songs-count {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.artist-track-list { display: flex; flex-direction: column; gap: 2px; }
+
+.artist-track-row {
+  display: grid;
+  grid-template-columns: 44px 44px 1fr 32px 32px 60px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: default;
+  transition: background-color 0.15s ease;
+}
+
+.artist-track-row:hover { background-color: var(--bg-hover); }
+.artist-track-row.current-track { background-color: rgba(255, 149, 0, 0.05); }
+
+/* Track num — same as Album page */
+.track-num {
+  position: relative;
+  width: 44px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.track-index {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.track-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0;
+  border-radius: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.artist-track-row:hover .track-play-btn { opacity: 1; }
+.artist-track-row:hover .track-index { opacity: 0; }
+
+.track-playing-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.track-playing-bars span {
+  width: 3px;
+  background-color: var(--accent-orange);
+  border-radius: 2px;
+  animation: playing-bar-a 0.8s ease-in-out infinite alternate;
+}
+
+.track-playing-bars span:nth-child(2) { animation-delay: 0.2s; }
+.track-playing-bars span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes playing-bar-a {
+  from { height: 4px; }
+  to   { height: 14px; }
+}
+
+.artist-track-cover {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.track-title {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.track-album {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-queue-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.artist-track-row:hover .track-queue-btn { opacity: 1; }
+
+.track-queue-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--accent-orange);
+}
+
+.track-duration {
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.artist-show-more {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  margin: 16px auto 0;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.artist-show-more:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--accent-orange);
+}
+
+.artist-no-songs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.artist-no-songs i { font-size: 36px; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .artist-page {
+    margin-left: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .artist-page {
+    margin-left: 0;
+  }
+  .artist-hero { padding: 32px 16px 24px; }
+  .artist-hero-content { flex-direction: column; align-items: center; text-align: center; }
+  .artist-avatar-wrapper { width: 150px; height: 150px; }
+  .artist-meta { justify-content: center; }
+  .artist-actions { justify-content: center; }
+  .artist-songs { padding: 16px; }
+  .artist-track-row {
+    grid-template-columns: 36px 36px 1fr 32px 60px;
+  }
+  .track-queue-btn { display: none; }
+}
+

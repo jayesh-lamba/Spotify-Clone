@@ -1,0 +1,428 @@
+/* ========================================
+   LOGIN PAGE
+======================================== */
+
+.Login-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    padding: 40px 20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 149, 0, 0.12),
+            transparent 55%
+        ),
+        var(--bg-primary);
+
+    color: var(--text-primary);
+
+    overflow-y: auto;
+}
+
+
+/* ========================================
+   LOGIN CARD
+======================================== */
+
+.login-card {
+    width: 430px;
+
+    max-width: 100%;
+
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    background: var(--bg-card);
+
+    border: 1px solid var(--border-color);
+
+    box-shadow:
+        0 20px 60px var(--shadow-color);
+
+    text-align: center;
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+.login-logo {
+    margin-bottom: 28px;
+
+    color: var(--accent-orange);
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 15px rgba(255, 149, 0, 0.35);
+}
+
+
+/* ========================================
+   HEADING
+======================================== */
+
+.login-card h1 {
+    margin: 0;
+
+    font-size: 28px;
+
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+
+.login-subtitle {
+    margin: 10px 0 30px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   LOGIN FORM
+======================================== */
+
+.login-form {
+    display: flex;
+
+    flex-direction: column;
+
+    text-align: left;
+}
+
+
+.login-form label {
+    color: var(--text-primary);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* ========================================
+   PASSWORD LABEL
+======================================== */
+
+.password-label {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+}
+
+
+.password-label a {
+    color: var(--accent-orange);
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition: color 0.2s ease;
+}
+
+
+.password-label a:hover {
+    color: var(--accent-hover);
+
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   INPUTS
+======================================== */
+
+.login-form input {
+    width: 100%;
+
+    height: 45px;
+
+    margin-bottom: 18px;
+
+    padding: 0 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background-color: var(--bg-input);
+
+    color: var(--text-input);
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+.login-form input::placeholder {
+    color: var(--text-placeholder);
+}
+
+
+.login-form input:focus {
+    background-color: var(--bg-input);
+
+    border-color: var(--accent-orange);
+
+    box-shadow:
+        0 0 12px rgba(255, 149, 0, 0.12);
+}
+
+
+/* ========================================
+   LOGIN BUTTON
+======================================== */
+
+.login-submit-button {
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 2px;
+
+    border: none;
+
+    border-radius: 24px;
+
+    background-color: var(--accent-orange);
+
+    color: #000;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.login-submit-button:hover {
+    transform: translateY(-2px);
+
+    background-color: var(--accent-hover);
+
+    box-shadow:
+        0 0 20px rgba(255, 149, 0, 0.35);
+}
+
+
+.login-submit-button:active {
+    transform: scale(0.98);
+}
+
+
+/* ========================================
+   DIVIDER
+======================================== */
+
+.login-divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 25px 0;
+}
+
+
+.login-divider span {
+    flex: 1;
+
+    height: 1px;
+
+    background-color: var(--border-color);
+}
+
+
+.login-divider p {
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* ========================================
+   GOOGLE BUTTON
+======================================== */
+
+.google-login-button {
+    width: 100%;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 24px;
+
+    background-color: var(--bg-input);
+
+    color: var(--text-primary);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.google-login-button:hover {
+    background-color: var(--bg-hover);
+
+    border-color: var(--accent-orange);
+
+    transform: translateY(-2px);
+}
+
+
+.google-login-button i {
+    font-size: 16px;
+}
+
+
+/* ========================================
+   SIGNUP TEXT
+======================================== */
+
+.signup-text {
+    margin: 25px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+}
+
+
+.signup-text a {
+    margin-left: 6px;
+
+    color: var(--accent-orange);
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+
+.signup-text a:hover {
+    color: var(--accent-hover);
+
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   SCROLLBAR
+======================================== */
+
+.Login-page::-webkit-scrollbar {
+    width: 7px;
+}
+
+.Login-page::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.Login-page::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+
+    border-radius: 10px;
+}
+
+.Login-page::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 500px) {
+
+    .Login-page {
+        padding: 25px 15px;
+    }
+
+    .login-card {
+        padding: 30px 22px;
+
+        border-radius: 12px;
+    }
+
+    .login-card h1 {
+        font-size: 24px;
+    }
+
+    .login-logo {
+        font-size: 26px;
+
+        margin-bottom: 22px;
+    }
+
+    .password-label {
+        gap: 10px;
+    }
+}

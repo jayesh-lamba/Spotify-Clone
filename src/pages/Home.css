@@ -1,308 +1,658 @@
-/* =========================
+/* =========================================================
+   ROOT CAUSE NOTE
+   LikedSongs.css defines .song-image { width:45px; height:45px }
+   and Player.css defines .song-info { display:flex; flex-direction:column }
+   Both are global in React so they override Home's rules.
+   Solution: all Home-specific card classes use the sc- prefix
+   (sc-card, sc-artwork, sc-play-btn, sc-info, sc-title, etc.)
+   so no other CSS file can accidentally override them.
+========================================================= */
+
+/* =========================================================
+   GLOBAL RESET (home-scoped)
+========================================================= */
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: var(--bg-primary);
+}
+
+* { box-sizing: border-box; }
+
+
+/* =========================================================
    HOME CONTAINER
-   ========================= */
+========================================================= */
 
 .Home {
     margin-left: 260px;
-    padding: 30px 35px 120px 35px;
-
-    min-height: calc(100vh - 64px);
-
-    background-color: #121212;
-    color: white;
-
-    box-sizing: border-box;
+    min-height: 100vh;
+    /* 140px keeps the last grid row above the 90px fixed player */
+    padding: 30px 35px 140px;
+    padding-top: calc(64px + 30px); /* account for fixed navbar */
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
 }
 
 
-/* =========================
-   SECTION
-   ========================= */
+/* =========================================================
+   SECTIONS
+========================================================= */
 
 .Home section {
-    margin-bottom: 45px;
+    margin-bottom: 55px;
 }
-
-
-/* =========================
-   SECTION HEADINGS
-   ========================= */
 
 .Home h2 {
-    font-size: 24px;
-    margin: 0 0 20px 0;
+    margin: 0 0 22px;
+    color: var(--text-primary);
+    font-size: 26px;
+    font-weight: 700;
+}
 
-    color: white;
+.section-subtitle {
+    margin: -10px 0 22px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 
-/* =========================
-   SONG GRID
-   ========================= */
+/* =========================================================
+   SC-GRID  — responsive song card grid
+   Desktop  : auto-fill ≥180px  → 4-5 per row
+   Tablet   : 3 columns
+   Mobile   : 2 columns
+========================================================= */
 
-.song-grid {
+.sc-grid {
     display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
 }
 
 
-/* =========================
-   SONG CARD
-   ========================= */
+/* =========================================================
+   SC-CARD  — the card wrapper
+   • flex column so artwork is on top, text below
+   • NO fixed height, NO aspect-ratio → height grows naturally
+========================================================= */
 
-.song-card {
-    background-color: #181818;
+.sc-card {
+    display: flex;
+    flex-direction: column;
 
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
     padding: 12px;
+    cursor: pointer;
+
+    box-shadow: 0 4px 16px var(--shadow-color);
+    transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.sc-card:hover {
+    background-color: var(--bg-hover);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px var(--shadow-color);
+}
+
+
+/* =========================================================
+   SC-ARTWORK  — square artwork container
+   • width:100% fills the card (minus 24px padding)
+   • aspect-ratio:1/1 makes it a perfect square
+   • overflow:hidden clips image zoom & play-btn position
+========================================================= */
+
+.sc-artwork {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 1 / 1;    /* KEY: square */
 
     border-radius: 8px;
+    overflow: hidden;        /* clips the zoom + keeps btn inside */
+    margin-bottom: 12px;
+    background: var(--bg-card-elevated);    /* placeholder while image loads */
+    flex-shrink: 0;
+}
+
+.sc-artwork img {
+    /* fill the entire square container */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
+    transition: transform .35s ease;
+}
+
+.sc-card:hover .sc-artwork img {
+    transform: scale(1.06);
+}
+
+
+/* =========================================================
+   SC-PLAY-BTN  — circular orange play button
+   Hidden by default, slides up into view on card hover
+========================================================= */
+
+.sc-play-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+
+    background-color: var(--accent-orange);
+    color: #000;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+
+    /* Hidden → slides up on hover */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s ease, transform .25s ease, background-color .2s ease;
+    z-index: 4;
+}
+
+.sc-card:hover .sc-play-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sc-play-btn:hover {
+    background-color: var(--accent-hover);
+    transform: scale(1.1) translateY(0) !important;
+}
+
+/* ── Add-to-queue mini button (top-right corner of artwork) ── */
+.sc-queue-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
 
     cursor: pointer;
 
-    transition: background-color 0.2s ease,
-                transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .2s ease, transform .2s ease, background-color .2s ease;
+    z-index: 5;
 }
 
-.song-card:hover {
-    background-color: #282828;
-
-    transform: translateY(-3px);
+.sc-card:hover .sc-queue-btn {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-
-/* Song image */
-
-.song-image {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-
-    overflow: hidden;
-
-    border-radius: 6px;
-
-    margin-bottom: 12px;
-}
-
-.song-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    display: block;
+.sc-queue-btn:hover {
+    background-color: var(--accent-orange);
+    color: #000;
 }
 
 
-/* Song title */
+/* =========================================================
+   SC-INFO  — text block below artwork
+========================================================= */
 
-.song-card p {
-    margin: 0 0 5px 0;
+.sc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0; /* allows text-overflow:ellipsis inside flex child */
+}
 
-    font-size: 15px;
-    font-weight: 600;
-
+.sc-title {
+    margin: 0 0 2px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-
-/* Artist */
-
-.song-card span {
-    color: #b3b3b3;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   ALBUM GRID
-   ========================= */
-
-.album-grid {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 20px;
-}
-
-
-/* =========================
-   ALBUM CARD
-   ========================= */
-
-.album-card {
-    background-color: #181818;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s ease,
-                transform 0.2s ease;
-}
-
-.album-card:hover {
-    background-color: #282828;
-
-    transform: translateY(-3px);
-}
-
-
-/* Album image */
-
-.album-card img {
-    width: 100%;
-
-    aspect-ratio: 1 / 1;
-
-    object-fit: cover;
-
+.sc-artist {
     display: block;
-
-    border-radius: 6px;
-
-    margin-bottom: 12px;
-}
-
-
-/* Album title */
-
-.album-card h3 {
-    margin: 0 0 5px 0;
-
-    font-size: 15px;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-/* Album artist */
-
-.album-card p {
     margin: 0;
-
-    color: #b3b3b3;
-
+    color: var(--text-secondary);
     font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sc-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+    min-width: 0;
+}
+
+.sc-album {
+    color: var(--text-muted);
+    font-size: 12px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 6px;
+}
+
+.sc-duration {
+    color: var(--text-muted);
+    font-size: 12px;
+    flex-shrink: 0;
 }
 
 
-/* =========================
-   TRENDING SONGS
-   ========================= */
+/* =========================================================
+   TRENDING SONGS  (list layout, not grid)
+========================================================= */
 
 .song-list {
     display: flex;
     flex-direction: column;
-
-    gap: 5px;
+    gap: 6px;
 }
-
-
-/* Individual trending song */
 
 .trending-song {
     display: grid;
-
-    grid-template-columns: 40px 1fr 1fr;
-
+    grid-template-columns: 35px 70px minmax(150px,1fr) minmax(100px,1fr) 70px 45px;
     align-items: center;
-
-    padding: 12px 15px;
-
-    border-radius: 6px;
-
-    color: #b3b3b3;
-
+    gap: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
     cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
 }
-
-
-/* Hover */
 
 .trending-song:hover {
-    background-color: #282828;
-
-    color: white;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-color);
 }
 
-
-/* Number */
-
-.trending-song span {
-    color: #777;
-
+.song-num {
+    color: var(--text-muted);
     font-size: 14px;
 }
 
+.trending-song-img {
+    width: 60px !important;
+    height: 60px !important;
+    display: block;
+    border-radius: 7px;
+    object-fit: cover;
+}
 
-/* Song name */
-
-.trending-song p {
+.trending-song-title,
+.trending-song-artist {
     margin: 0;
-
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trending-song-title { color: var(--text-primary); }
+.trending-song-artist { color: var(--text-secondary); }
+
+.trending-song-duration {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.trending-song-play-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.trending-song:hover .trending-song-play-btn { opacity: 1; }
+.trending-song-play-btn:hover { transform: scale(1.1); }
+
+
+/* =========================================================
+   MADE FOR YOU
+========================================================= */
+
+.made-for-you { margin-top: 65px; }
+
+.made-for-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.made-for-card {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.made-for-card:hover {
+    transform: translateY(-5px);
+    background: var(--bg-hover);
+    box-shadow: 0 15px 30px var(--shadow-color);
+}
+
+.made-for-icon {
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255,149,0,.1);
+    color: var(--accent-orange);
+    font-size: 21px;
+}
+
+.made-for-card h3 { margin: 0 0 7px; color: var(--text-primary); font-size: 16px; }
+.made-for-card p  { margin: 0; color: var(--text-secondary); font-size: 12px; }
+
+
+/* =========================================================
+   ARTISTS
+========================================================= */
+
+.popular-artists { margin-top: 65px; }
+
+.artist-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.artist-card {
+    padding: 20px 15px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: transform .25s ease, background .25s ease;
+}
+
+.artist-card:hover { transform: translateY(-6px); background: var(--bg-hover); }
+
+.artist-placeholder {
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: var(--bg-card-elevated);
+    border: 2px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 28px;
+}
+
+.artist-card h3 { margin: 0 0 5px; color: var(--text-primary); font-size: 15px; }
+.artist-card p  { margin: 0; color: var(--text-secondary); font-size: 12px; }
+
+
+/* =========================================================
+   MOODS
+========================================================= */
+
+.listening-moods { margin-top: 65px; }
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+}
+
+.mood-card {
+    min-height: 145px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+    border-radius: 13px;
+    color: white;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.mood-card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,.3); }
+.mood-card h3 { margin: 0 0 4px; font-size: 18px; }
+.mood-card p  { margin: 0; color: rgba(255,255,255,.7); font-size: 12px; }
+
+.mood-orange { background: linear-gradient(135deg,#ff9500,#b94f00); }
+.mood-purple { background: linear-gradient(135deg,#6546a8,#302052); }
+.mood-blue   { background: linear-gradient(135deg,#287bb8,#163b59); }
+.mood-red    { background: linear-gradient(135deg,#b93d3d,#591d1d); }
+
+
+/* =========================================================
+   DISCOVERY BANNER
+========================================================= */
+
+.orivio-discovery {
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 70px;
+    padding: 40px 50px;
+    overflow: hidden;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 80% 50%, rgba(255,149,0,.18), transparent 35%),
+        var(--bg-card-elevated);
+    border: 1px solid var(--border-color);
+}
+
+.discovery-content { position: relative; z-index: 2; max-width: 600px; }
+.discovery-content > span { color: var(--accent-orange); font-size: 11px; font-weight: 800; letter-spacing: 4px; }
+.discovery-content h2 { margin: 10px 0; color: var(--text-primary); font-size: 38px; line-height: 1.05; }
+.discovery-content p { max-width: 500px; margin: 0; color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
+
+.discovery-decoration { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+
+.music-circle {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,149,0,.12);
+    border: 2px solid rgba(255,149,0,.3);
+    color: var(--accent-orange);
+    font-size: 48px;
+    margin: auto;
+}
+
+.floating-note {
+    position: absolute;
+    color: rgba(255,149,0,.55);
+    font-size: 22px;
+    animation: floatNote 3s ease-in-out infinite;
+}
+.note-one   { top: 10px;  left: 10px;  animation-delay: 0s;  }
+.note-two   { top: 30px;  right: 10px; animation-delay: 1s;  }
+.note-three { bottom: 10px; left: 30px; animation-delay: 2s; }
+
+@keyframes floatNote {
+    0%,100% { transform: translateY(0);    opacity: .55; }
+    50%      { transform: translateY(-10px); opacity: 1;  }
 }
 
 
-/* =========================
-   RESPONSIVE
-   ========================= */
+/* =========================================================
+   RESPONSIVE — TABLET  ≤1250px  → 3 columns
+========================================================= */
 
-@media (max-width: 1000px) {
-
-    .song-grid,
-    .album-grid {
-        grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1250px) {
+    .sc-grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
     }
-
 }
 
 
-@media (max-width: 750px) {
+/* =========================================================
+   RESPONSIVE — SMALL TABLET  ≤900px  → 2 columns
+========================================================= */
 
-    .Sidebar {
-        width: 200px;
-    }
-
+@media (max-width: 900px) {
     .Home {
-        margin-left: 200px;
+        margin-left: 220px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .sc-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .artist-grid { grid-template-columns: repeat(2,1fr); }
+    .mood-grid   { grid-template-columns: repeat(2,1fr); }
+    .made-for-grid { grid-template-columns: repeat(2,1fr); }
+
+    .trending-song {
+        grid-template-columns: 30px 60px minmax(120px,1fr) 70px 40px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET ≤768px → full width (sidebar is drawer)
+========================================================= */
+
+@media (max-width: 768px) {
+    .Home {
+        margin-left: 0;
         padding-left: 20px;
         padding-right: 20px;
     }
-
-    .song-grid,
-    .album-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
 }
 
 
-@media (max-width: 500px) {
+/* =========================================================
+   RESPONSIVE — MOBILE  ≤600px  → 2 columns
+========================================================= */
 
-    .Sidebar {
-        width: 70px;
-    }
-
+@media (max-width: 600px) {
     .Home {
-        margin-left: 70px;
-        padding: 20px 15px 120px;
+        margin-left: 0;
+        padding: 20px 12px 120px;
+        padding-top: calc(64px + 20px);
     }
 
-    .song-grid,
-    .album-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .Home h2 { font-size: 22px; }
+
+    .sc-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 12px;
     }
 
+    .sc-card   { padding: 10px; }
+    .sc-title  { font-size: 13px; }
+    .sc-artist { font-size: 12px; }
+
+    .sc-play-btn {
+        width: 38px;
+        height: 38px;
+        right: 8px;
+        bottom: 8px;
+        font-size: 13px;
+    }
+
+    .made-for-grid { grid-template-columns: 1fr; }
+
+    .artist-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+    .artist-placeholder { width: 85px; height: 85px; }
+
+    .mood-grid  { grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .mood-card  { min-height: 120px; padding: 15px; }
+
+    .orivio-discovery {
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 20px;
+    }
+    .discovery-content h2 { font-size: 28px; }
+    .discovery-decoration { display: none; }
+
+    .trending-song {
+        grid-template-columns: 25px 55px 1fr 40px;
+        gap: 8px;
+    }
+    .trending-song-artist,
+    .trending-song-duration { display: none; }
+    .trending-song-img {
+        width: 55px !important;
+        height: 55px !important;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL PHONES  ≤380px
+========================================================= */
+
+@media (max-width: 380px) {
+    .sc-grid { gap: 8px; }
+    .sc-card  { padding: 8px; }
+    .sc-title { font-size: 12px; }
+    .sc-play-btn { width: 34px; height: 34px; }
 }

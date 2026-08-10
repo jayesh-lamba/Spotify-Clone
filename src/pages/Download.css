@@ -1,0 +1,776 @@
+/* ========================================
+   DOWNLOAD PAGE
+======================================== */
+
+.Download-page {
+    margin-left: 260px;
+    margin-top: 64px;
+
+    min-height: calc(100vh - 64px);
+
+    padding: 0 40px 120px;
+
+    box-sizing: border-box;
+
+    background-color: var(--bg-primary);
+
+    color: var(--text-primary);
+
+    overflow-y: auto;
+}
+
+
+/* ========================================
+   HERO SECTION
+======================================== */
+
+.download-hero {
+    min-height: 480px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 60px;
+
+    box-sizing: border-box;
+
+    border-radius: 0 0 20px 20px;
+
+    background:
+        radial-gradient(
+            circle at 75% 30%,
+            rgba(255, 149, 0, 0.18),
+            transparent 35%
+        ),
+        var(--bg-card-elevated);
+}
+
+
+.download-hero-content {
+    max-width: 700px;
+}
+
+
+/* ========================================
+   HERO LABEL
+======================================== */
+
+.download-label {
+    margin: 0 0 15px;
+
+    color: var(--accent-orange);
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 4px;
+}
+
+
+/* ========================================
+   HERO TITLE
+======================================== */
+
+.download-hero h1 {
+    margin: 0 0 20px;
+
+    font-size: 55px;
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    color: var(--text-primary);
+}
+
+
+/* ========================================
+   DESCRIPTION
+======================================== */
+
+.download-description {
+    max-width: 600px;
+
+    margin: 0 0 28px;
+
+    color: var(--text-secondary);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   MAIN DOWNLOAD BUTTON
+======================================== */
+
+.download-main-button {
+    width: fit-content;
+
+    min-height: 48px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 0 25px;
+
+    box-sizing: border-box;
+
+    border: none;
+
+    border-radius: 25px;
+
+    background-color: var(--accent-orange);
+
+    color: #000;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.download-main-button:hover {
+    background-color: var(--accent-hover);
+
+    color: #000;
+
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 8px 25px rgba(255, 149, 0, 0.25);
+}
+
+
+.download-main-button:active {
+    transform: scale(0.98);
+}
+
+
+/* ========================================
+   ACTIVE DOWNLOAD BUTTON
+======================================== */
+
+.download-main-button.active {
+    background-color: var(--accent-hover);
+
+    box-shadow:
+        0 0 20px rgba(255, 149, 0, 0.25);
+}
+
+
+/* ========================================
+   HERO NOTE
+======================================== */
+
+.download-note {
+    margin: 15px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+
+/* ========================================
+   AVAILABLE SECTION
+======================================== */
+
+.available-section {
+    padding: 65px 10px 20px;
+}
+
+
+.available-section h2,
+.download-features > h2 {
+    margin: 0 0 8px;
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+
+.section-description {
+    margin: 0 0 30px;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+}
+
+
+/* ========================================
+   PLATFORM GRID
+======================================== */
+
+.platform-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+
+/* ========================================
+   PLATFORM CARD
+======================================== */
+
+.platform-card {
+    min-height: 300px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 30px 25px;
+
+    box-sizing: border-box;
+
+    border-radius: 14px;
+
+    background-color: var(--bg-card);
+
+    border: 1px solid var(--border-color);
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.platform-card:hover {
+    background-color: var(--bg-hover);
+
+    border-color: var(--accent-orange);
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px var(--shadow-color),
+        0 0 20px rgba(255, 149, 0, 0.06);
+}
+
+
+/* ========================================
+   PLATFORM ICON
+======================================== */
+
+.platform-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background-color: var(--bg-input);
+
+    color: var(--accent-orange);
+
+    font-size: 30px;
+
+    transition:
+        background-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.platform-card:hover .platform-icon {
+    background-color: rgba(255, 149, 0, 0.12);
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 20px rgba(255, 149, 0, 0.12);
+}
+
+
+/* ========================================
+   PLATFORM TITLE
+======================================== */
+
+.platform-card h3 {
+    margin: 0 0 10px;
+
+    font-size: 18px;
+
+    color: var(--text-primary);
+}
+
+
+/* ========================================
+   PLATFORM DESCRIPTION
+======================================== */
+
+.platform-card p {
+    min-height: 55px;
+
+    margin: 0 0 22px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   PLATFORM BUTTON
+======================================== */
+
+.platform-button {
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: auto;
+
+    padding: 0 18px;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 22px;
+
+    background-color: var(--bg-input);
+
+    color: var(--text-primary);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.platform-button:hover {
+    background-color: var(--accent-orange);
+
+    border-color: var(--accent-orange);
+
+    color: #000;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 15px rgba(255, 149, 0, 0.18);
+}
+
+
+.platform-button:active {
+    transform: scale(0.97);
+}
+
+
+/* ========================================
+   ACTIVE PLATFORM BUTTON
+======================================== */
+
+.platform-button.active {
+    background-color: var(--accent-orange);
+
+    border-color: var(--accent-orange);
+
+    color: #000;
+
+    box-shadow:
+        0 0 15px rgba(255, 149, 0, 0.2);
+}
+
+
+/* ========================================
+   FEATURES SECTION
+======================================== */
+
+.download-features {
+    padding: 65px 10px 20px;
+}
+
+
+/* ========================================
+   FEATURES GRID
+======================================== */
+
+.features-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-top: 30px;
+}
+
+
+/* ========================================
+   FEATURE CARD
+======================================== */
+
+.download-feature {
+    padding: 25px 20px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    background-color: var(--bg-card);
+
+    border: 1px solid var(--border-color);
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.download-feature:hover {
+    background-color: var(--bg-hover);
+
+    border-color: var(--accent-orange);
+
+    transform: translateY(-5px);
+}
+
+
+/* ========================================
+   FEATURE ICON
+======================================== */
+
+.feature-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 10px;
+
+    background-color: rgba(255, 149, 0, 0.1);
+
+    color: var(--accent-orange);
+
+    font-size: 18px;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+.download-feature:hover .feature-icon {
+    background-color: rgba(255, 149, 0, 0.17);
+
+    transform: scale(1.08);
+}
+
+
+/* ========================================
+   FEATURE TITLE
+======================================== */
+
+.download-feature h3 {
+    margin: 0 0 9px;
+
+    font-size: 15px;
+
+    color: var(--text-primary);
+}
+
+
+/* ========================================
+   FEATURE DESCRIPTION
+======================================== */
+
+.download-feature p {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   BOTTOM CTA
+======================================== */
+
+.download-cta {
+    margin-top: 65px;
+
+    padding: 70px 30px;
+
+    box-sizing: border-box;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 149, 0, 0.14),
+            transparent 55%
+        ),
+        var(--bg-card);
+
+    border: 1px solid var(--border-color);
+}
+
+
+.cta-content {
+    max-width: 650px;
+
+    margin: auto;
+}
+
+
+.download-cta h2 {
+    margin: 0 0 12px;
+
+    font-size: 32px;
+
+    color: var(--text-primary);
+}
+
+
+.download-cta p {
+    margin: 0 0 25px;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+}
+
+
+/* ========================================
+   SCROLLBAR
+======================================== */
+
+.Download-page::-webkit-scrollbar {
+    width: 7px;
+}
+
+.Download-page::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.Download-page::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+
+    border-radius: 10px;
+}
+
+.Download-page::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
+}
+
+
+/* ========================================
+   RESPONSIVE - 1100px
+======================================== */
+
+@media (max-width: 1100px) {
+
+    .Download-page {
+        padding-left: 30px;
+
+        padding-right: 30px;
+    }
+
+    .download-hero {
+        padding: 50px;
+    }
+
+    .download-hero h1 {
+        font-size: 46px;
+    }
+
+    .features-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE - 900px
+======================================== */
+
+@media (max-width: 900px) {
+
+    .platform-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .download-hero {
+        min-height: 420px;
+
+        padding: 45px;
+    }
+
+    .download-hero h1 {
+        font-size: 42px;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE - 700px
+======================================== */
+
+@media (max-width: 700px) {
+
+    .Download-page {
+        margin-left: 220px;
+
+        padding: 0 20px 100px;
+    }
+
+    .download-hero {
+        min-height: 400px;
+
+        padding: 35px 25px;
+
+        align-items: center;
+    }
+
+    .download-hero h1 {
+        font-size: 36px;
+    }
+
+    .download-description {
+        font-size: 14px;
+    }
+
+    .platform-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .available-section,
+    .download-features {
+        padding-left: 0;
+
+        padding-right: 0;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE - 500px
+======================================== */
+
+@media (max-width: 500px) {
+
+    .Download-page {
+        margin-left: 220px;
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
+    .download-hero {
+        min-height: 360px;
+
+        padding: 30px 20px;
+    }
+
+    .download-label {
+        font-size: 11px;
+
+        letter-spacing: 3px;
+    }
+
+    .download-hero h1 {
+        font-size: 30px;
+    }
+
+    .download-description {
+        font-size: 13px;
+
+        line-height: 1.6;
+    }
+
+    .download-main-button {
+        width: 100%;
+    }
+
+    .platform-card {
+        min-height: 280px;
+
+        padding: 25px 20px;
+    }
+
+    .download-cta {
+        padding: 50px 20px;
+    }
+
+    .download-cta h2 {
+        font-size: 27px;
+    }
+
+    .download-cta .download-main-button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,16 @@
+/* ========================================
+   AUDIO VISUALIZER
+======================================== */
+
+.audio-visualizer-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.audio-visualizer-canvas {
+  width: 100%;
+  height: 80px;
+  display: block;
+}

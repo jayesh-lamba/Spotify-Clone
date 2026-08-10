@@ -2,16 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { PlayerProvider } from './context/PlayerContext';
+import { LikedSongsProvider } from './context/LikedSongsContext';
+import { ToastProvider } from './context/ToastContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <BrowserRouter>
+        <AuthProvider>
+            <PlayerProvider>
+                <LikedSongsProvider>
+                    <ToastProvider>
+                        <App />
+                    </ToastProvider>
+                </LikedSongsProvider>
+            </PlayerProvider>
+        </AuthProvider>
+    </BrowserRouter>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-
+// Register Service Worker for PWA
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration failed:', err);
+        });
+    });
+}
