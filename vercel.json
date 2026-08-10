@@ -1,17 +1,8 @@
 {
-  "services": {
-    "spotify-frontend": {
-      "root": ".",
-      "framework": "create-react-app",
-      "buildCommand": "npm run build",
-      "outputDirectory": "build"
-    },
-    "orivio-backend": {
-      "root": "backend",
-      "ignoreCommand": "exit 0"
-    }
-  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
   "rewrites": [
-    { "source": "/((?!static/).*)", "destination": "/index.html" }
+    { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
   ]
 }
