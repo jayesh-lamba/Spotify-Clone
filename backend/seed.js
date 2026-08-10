@@ -416,6 +416,12 @@ async function runSeed() {
       { upsert: true, new: true }
     );
 
+    const PORT = process.env.PORT || 5001;
+    const BACKEND_URL = (process.env.BACKEND_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
+    doc.audioUrl = `${BACKEND_URL}/api/songs/${doc._id}/stream`;
+    doc.isAvailable = true;
+    await doc.save();
+
     if (albumId) {
       await Album.findByIdAndUpdate(albumId, { $addToSet: { songs: doc._id } });
     }

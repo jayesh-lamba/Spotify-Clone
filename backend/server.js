@@ -122,7 +122,7 @@ const authLimiter = rateLimit({
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
-// ─── Static: Album Artwork ────────────────────────────────────────────────────
+// ─── Static: Album Artwork & Audio Files ──────────────────────────────────────
 // Serves files from backend/public/covers/ at GET /api/covers/:filename
 const COVERS_DIR = path.join(__dirname, "public", "covers");
 if (!require("fs").existsSync(COVERS_DIR)) {
@@ -136,23 +136,61 @@ app.use("/api/covers", express.static(COVERS_DIR, {
   },
 }));
 
-// ─── Database Connection & Auto-Seed ──────────────────────────────────────────
-connectDB().then((connected) => {
+// Serves static demo audio files from backend/public/audio/ at GET /api/audio/:filename
+const AUDIO_DIR = path.join(__dirname, "public", "audio");
+if (!require("fs").existsSync(AUDIO_DIR)) {
+  require("fs").mkdirSync(AUDIO_DIR, { recursive: true });
+}
+app.use("/api/audio", express.static(AUDIO_DIR, {
+  maxAge: "7d",
+  setHeaders(res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Range, Authorization");
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range, Content-Length, Accept-Ranges");
+    res.setHeader("Accept-Ranges", "bytes");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  },
+}));
+
+// ─── Database Connection, Auto-Seed & Migration ────────────────────────────────
+connectDB().then(async (connected) => {
   if (connected) {
     const Song = require("./models/Song");
-    Song.countDocuments()
-      .then((count) => {
-        if (count === 0) {
-          console.log("🌱 [Seed] Database is empty (0 songs found). Triggering auto-seed...");
-          const { runSeed } = require("./seed");
-          runSeed()
-            .then((res) => console.log(`🎉 [Seed] Auto-seeded ${res.songs} songs into MongoDB!`))
-            .catch((err) => console.error(`❌ [Seed] Auto-seed failed: ${err.message}`));
-        } else {
-          console.log(`ℹ️  [Seed] Database already populated (${count} songs found).`);
+    const PORT = process.env.PORT || 5001;
+    const BACKEND_URL = (process.env.BACKEND_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
+
+    try {
+      const count = await Song.countDocuments();
+      if (count === 0) {
+        console.log("🌱 [Seed] Database is empty (0 songs found). Triggering auto-seed...");
+        const { runSeed } = require("./seed");
+        await runSeed().catch((err) => console.error("❌ [Seed] Auto-seed failed:", err.message));
+      } else {
+        console.log(`ℹ️  [Seed] Database already populated (${count} songs found).`);
+      }
+
+      // Auto-Migration: Ensure all existing songs have valid audioUrl pointing to production backend
+      const emptySongs = await Song.find({
+        $or: [
+          { audioUrl: "" },
+          { audioUrl: null },
+          { audioUrl: { $exists: false } },
+          ...(process.env.NODE_ENV === "production" ? [{ audioUrl: /localhost/ }] : []),
+        ],
+      });
+
+      if (emptySongs.length > 0) {
+        console.log(`🔄 [Migration] Updating audioUrl for ${emptySongs.length} existing songs...`);
+        for (const song of emptySongs) {
+          song.audioUrl = `${BACKEND_URL}/api/songs/${song._id}/stream`;
+          song.isAvailable = true;
+          await song.save().catch(() => {});
         }
-      })
-      .catch((err) => console.error("⚠️  [Seed] Count check failed:", err.message));
+        console.log(`✅ [Migration] Successfully updated ${emptySongs.length} songs with production streaming URLs!`);
+      }
+    } catch (err) {
+      console.error("⚠️  [DB Init/Migration Error]:", err.message);
+    }
   }
 });
 
