@@ -8,11 +8,18 @@
  * - Matches songs shown in the frontend: Blinding Lights, Devil Is a Lie,
  *   All Eyes On Me, Everyday Normal Guy 2, Happy Nation, That's Why, Starboy,
  *   Perfect, Night Changes, etc.
- * - Does NOT invent working audio URLs.
+ * - Can be imported and run programmatically (e.g. auto-seed on server startup if DB empty).
  */
 
 require("dotenv").config();
+const dns = require("dns");
+try {
+  // Fix local Node.js Windows/ISP DNS SRV lookup error for MongoDB Atlas (querySrv ECONNREFUSED)
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (_) {}
+
 const mongoose = require("mongoose");
+const bcrypt   = require("bcryptjs");
 const Artist   = require("./models/Artist");
 const Album    = require("./models/Album");
 const Song     = require("./models/Song");
@@ -78,7 +85,6 @@ const ARTISTS = [
   },
 ];
 
-// Albums (title + artistName used as uniqueness key during upsert)
 const ALBUMS_RAW = [
   {
     artistName:  "The Weeknd",
@@ -119,7 +125,7 @@ const ALBUMS_RAW = [
   {
     artistName:  "Tommy Richman",
     title:       "Coyote",
-    coverImage:  "https://4kwallpapers.com/images/walls/thumbs_3t/26035.jpg",
+    coverImage:  "https://4kwallpapers.com/images/walls/thumbs_3t/25406.jpg",
     releaseYear: 2024,
   },
   {
@@ -136,9 +142,7 @@ const ALBUMS_RAW = [
   },
 ];
 
-// Songs (title + artistName used as uniqueness key)
 const SONGS_RAW = [
-  // ── The Weeknd ──────────────────────────────────────────────────────
   {
     title:           "Blinding Lights",
     artistName:      "The Weeknd",
@@ -183,7 +187,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      2_900_000,
   },
-  // ── Ed Sheeran ──────────────────────────────────────────────────────
   {
     title:           "Perfect",
     artistName:      "Ed Sheeran",
@@ -217,7 +220,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      2_800_000,
   },
-  // ── One Direction ───────────────────────────────────────────────────
   {
     title:           "Night Changes",
     artistName:      "One Direction",
@@ -240,7 +242,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      2_100_000,
   },
-  // ── Post Malone ─────────────────────────────────────────────────────
   {
     title:           "Rockstar",
     artistName:      "Post Malone",
@@ -263,7 +264,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      2_700_000,
   },
-  // ── Billie Eilish ───────────────────────────────────────────────────
   {
     title:           "Bad Guy",
     artistName:      "Billie Eilish",
@@ -275,7 +275,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      3_900_000,
   },
-  // ── Tommy Richman ───────────────────────────────────────────────────
   {
     title:           "Devil Is a Lie",
     artistName:      "Tommy Richman",
@@ -287,11 +286,10 @@ const SONGS_RAW = [
     isTrending:      true,
     playsCount:      5_500_000,
   },
-  // ── Orivio Artist ───────────────────────────────────────────────────
   {
     title:           "All Eyes On Me",
     artistName:      "Orivio Artist",
-    albumTitle:      null,  // Single
+    albumTitle:      null,
     albumName:       "Singles",
     duration:        "3:20",
     durationSeconds: 200,
@@ -303,7 +301,7 @@ const SONGS_RAW = [
   {
     title:           "That's Why",
     artistName:      "Orivio Artist",
-    albumTitle:      null,  // Single
+    albumTitle:      null,
     albumName:       "Singles",
     duration:        "3:20",
     durationSeconds: 200,
@@ -312,7 +310,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      950_000,
   },
-  // ── Jon Lajoie ──────────────────────────────────────────────────────
   {
     title:           "Everyday Normal Guy 2",
     artistName:      "Jon Lajoie",
@@ -324,7 +321,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      780_000,
   },
-  // ── Ace of Base ─────────────────────────────────────────────────────
   {
     title:           "Happy Nation",
     artistName:      "Ace of Base",
@@ -347,7 +343,6 @@ const SONGS_RAW = [
     isTrending:      false,
     playsCount:      1_900_000,
   },
-  // ── Anime Night (featured in Quick Picks) ───────────────────────────
   {
     title:           "Anime Night",
     artistName:      "Orivio Artist",
@@ -362,27 +357,11 @@ const SONGS_RAW = [
   },
 ];
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
+// ─── Programmatic Seed Function ───────────────────────────────────────────────
 
-function log(msg)  { console.log(`  ✅ ${msg}`); }
-function warn(msg) { console.log(`  ⚠️  ${msg}`); }
-
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
-async function seed() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri || uri.trim() === "") {
-    console.error("❌ MONGODB_URI is not set in .env. Seed aborted.");
-    process.exit(1);
-  }
-
-  console.log("🌱 Connecting to MongoDB…");
-  await mongoose.connect(uri);
-  console.log("✅ Connected.\n");
-
-  // ── 1. Upsert Artists ──────────────────────────────────────────────
-  console.log("👤 Seeding artists…");
-  const artistMap = {}; // name → _id
+async function runSeed() {
+  // 1. Upsert Artists
+  const artistMap = {};
   for (const a of ARTISTS) {
     const doc = await Artist.findOneAndUpdate(
       { name: a.name },
@@ -390,15 +369,13 @@ async function seed() {
       { upsert: true, new: true }
     );
     artistMap[a.name] = doc._id;
-    log(`Artist: ${a.name}`);
   }
 
-  // ── 2. Upsert Albums ───────────────────────────────────────────────
-  console.log("\n💿 Seeding albums…");
-  const albumMap = {}; // "title|artistName" → _id
+  // 2. Upsert Albums
+  const albumMap = {};
   for (const a of ALBUMS_RAW) {
     const artistId = artistMap[a.artistName];
-    if (!artistId) { warn(`Artist not found for album: ${a.title}`); continue; }
+    if (!artistId) continue;
 
     const doc = await Album.findOneAndUpdate(
       { title: a.title, artist: artistId },
@@ -406,15 +383,13 @@ async function seed() {
       { upsert: true, new: true }
     );
     albumMap[`${a.title}|${a.artistName}`] = doc._id;
-    log(`Album: ${a.title} (${a.artistName})`);
   }
 
-  // ── 3. Upsert Songs ────────────────────────────────────────────────
-  console.log("\n🎵 Seeding songs…");
-  const songIds = []; // collect all seeded song ids for demo playlist
+  // 3. Upsert Songs
+  const songIds = [];
   for (const s of SONGS_RAW) {
     const artistId = artistMap[s.artistName];
-    if (!artistId) { warn(`Artist not found for song: ${s.title}`); continue; }
+    if (!artistId) continue;
 
     const albumKey = s.albumTitle ? `${s.albumTitle}|${s.artistName}` : null;
     const albumId  = albumKey ? albumMap[albumKey] : undefined;
@@ -426,11 +401,12 @@ async function seed() {
       duration:        s.duration,
       durationSeconds: s.durationSeconds,
       coverImage:      s.coverImage || "",
-      audioUrl:        "",  // No working audio URLs
+      audioUrl:        "",
       genre:           s.genre || "Pop",
       isTrending:      Boolean(s.isTrending),
       playsCount:      s.playsCount || 0,
       albumName:       s.albumTitle || s.albumName || "Single",
+      isAvailable:     true,
     };
     if (albumId) songData.album = albumId;
 
@@ -440,22 +416,16 @@ async function seed() {
       { upsert: true, new: true }
     );
 
-    // Ensure song is in album's songs array
     if (albumId) {
       await Album.findByIdAndUpdate(albumId, { $addToSet: { songs: doc._id } });
     }
 
     songIds.push(doc._id);
-    log(`Song: "${s.title}" — ${s.artistName}`);
   }
 
-  // ── 4. Demo Playlist (public, no creator required) ─────────────────
-  console.log("\n📋 Seeding demo playlist…");
+  // 4. Upsert Demo Playlist & User
   const DEMO_NAME = "ORIVIO Top Picks";
-
-  // We need a creator user — upsert a demo user
   const demoEmail = "demo@orivio.app";
-  const bcrypt    = require("bcryptjs");
   const salt      = await bcrypt.genSalt(10);
   const hash      = await bcrypt.hash("Orivio@2025", salt);
 
@@ -464,16 +434,10 @@ async function seed() {
     { $setOnInsert: { username: "OrivioDemo", email: demoEmail, password: hash } },
     { upsert: true, new: true }
   );
-  log(`Demo user: ${demoEmail}`);
 
-  // Trending songs for the playlist
   const trendingSongIds = SONGS_RAW
     .filter((s) => s.isTrending)
-    .map((s) => {
-      // find its _id from songIds by matching index
-      const idx = SONGS_RAW.indexOf(s);
-      return songIds[idx];
-    })
+    .map((s) => songIds[SONGS_RAW.indexOf(s)])
     .filter(Boolean);
 
   await Playlist.findOneAndUpdate(
@@ -490,22 +454,47 @@ async function seed() {
     },
     { upsert: true, new: true }
   );
-  log(`Playlist: "${DEMO_NAME}"`);
 
-  console.log("\n🎉 Seed complete!\n");
-  console.log("─────────────────────────────────────────────────────");
-  console.log(`  Artists seeded : ${ARTISTS.length}`);
-  console.log(`  Albums seeded  : ${ALBUMS_RAW.length}`);
-  console.log(`  Songs seeded   : ${SONGS_RAW.length}`);
-  console.log(`  Playlist       : "${DEMO_NAME}"`);
-  console.log(`  Demo user      : ${demoEmail} / Orivio@2025`);
-  console.log("─────────────────────────────────────────────────────");
-
-  await mongoose.disconnect();
-  process.exit(0);
+  return {
+    artists: ARTISTS.length,
+    albums: ALBUMS_RAW.length,
+    songs: SONGS_RAW.length,
+    playlist: DEMO_NAME,
+    demoUser: demoEmail,
+  };
 }
 
-seed().catch((err) => {
-  console.error("❌ Seed failed:", err.message);
-  mongoose.disconnect().finally(() => process.exit(1));
-});
+// ─── CLI Entrypoint ───────────────────────────────────────────────────────────
+
+if (require.main === module) {
+  (async () => {
+    const uri = process.env.MONGODB_URI;
+    if (!uri || uri.trim() === "") {
+      console.error("❌ MONGODB_URI is not set in .env. Seed aborted.");
+      process.exit(1);
+    }
+
+    console.log("🌱 Connecting to MongoDB…");
+    await mongoose.connect(uri);
+    console.log("✅ Connected.\n");
+
+    const result = await runSeed();
+
+    console.log("🎉 Seed complete!\n");
+    console.log("─────────────────────────────────────────────────────");
+    console.log(`  Artists seeded : ${result.artists}`);
+    console.log(`  Albums seeded  : ${result.albums}`);
+    console.log(`  Songs seeded   : ${result.songs}`);
+    console.log(`  Playlist       : "${result.playlist}"`);
+    console.log(`  Demo user      : ${result.demoUser}`);
+    console.log("─────────────────────────────────────────────────────");
+
+    await mongoose.disconnect();
+    process.exit(0);
+  })().catch((err) => {
+    console.error("❌ Seed failed:", err.message);
+    mongoose.disconnect().finally(() => process.exit(1));
+  });
+}
+
+module.exports = { runSeed, ARTISTS, ALBUMS_RAW, SONGS_RAW };

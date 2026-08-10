@@ -117,8 +117,26 @@ app.use("/api/covers", express.static(COVERS_DIR, {
   },
 }));
 
-// ─── Database Connection ──────────────────────────────────────────────────────
-connectDB();
+// ─── Database Connection & Auto-Seed ──────────────────────────────────────────
+connectDB().then((connected) => {
+  if (connected) {
+    const Song = require("./models/Song");
+    Song.countDocuments()
+      .then((count) => {
+        if (count === 0) {
+          console.log("🌱 [Seed] Database is empty (0 songs found). Triggering auto-seed...");
+          const { runSeed } = require("./seed");
+          runSeed()
+            .then((res) => console.log(`🎉 [Seed] Auto-seeded ${res.songs} songs into MongoDB!`))
+            .catch((err) => console.error(`❌ [Seed] Auto-seed failed: ${err.message}`));
+        } else {
+          console.log(`ℹ️  [Seed] Database already populated (${count} songs found).`);
+        }
+      })
+      .catch((err) => console.error("⚠️  [Seed] Count check failed:", err.message));
+  }
+});
+
 
 // ─── Root Endpoint ────────────────────────────────────────────────────────────
 app.get("/", (req, res) => {

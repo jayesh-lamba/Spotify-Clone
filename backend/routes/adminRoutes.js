@@ -15,6 +15,7 @@ const {
   updateSongLyrics,
   toggleWatchService,
   cleanMissing,
+  triggerSeedDatabase,
 } = require("../controllers/adminController");
 
 // ─── Configure Multer Storage ─────────────────────────────────────────────────
@@ -51,6 +52,9 @@ router.get("/music-manager/songs", getMusicManagerSongs);
 // POST /api/admin/scan-music — trigger recursive music directory scan
 router.post("/scan-music", scanMusic);
 
+// POST /api/admin/seed — trigger database seed
+router.post("/seed", triggerSeedDatabase);
+
 // POST /api/admin/upload-song — upload single audio file
 router.post("/upload-song", upload.single("audio"), uploadSong);
 
@@ -73,3 +77,4 @@ router.post("/watch", toggleWatchService);
 router.post("/clean-missing", cleanMissing);
 
 module.exports = router;
+

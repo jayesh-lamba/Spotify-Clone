@@ -354,6 +354,21 @@ const cleanMissing = async (req, res, next) => {
   }
 };
 
+// ─── POST /api/admin/seed ───────────────────────────────────────────────────
+const triggerSeedDatabase = async (req, res, next) => {
+  try {
+    const { runSeed } = require("../seed");
+    const result = await runSeed();
+    return res.status(200).json({
+      success: true,
+      message: "Database seeded successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getMusicManagerSongs,
   scanMusic,
@@ -364,4 +379,6 @@ module.exports = {
   updateSongLyrics,
   toggleWatchService,
   cleanMissing,
+  triggerSeedDatabase,
 };
+

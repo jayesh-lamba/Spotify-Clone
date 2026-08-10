@@ -1,4 +1,10 @@
 const mongoose = require("mongoose");
+const dns = require("dns");
+
+try {
+  // Fix local Node.js Windows/ISP DNS SRV lookup issues for MongoDB Atlas (querySrv ECONNREFUSED)
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (_) {}
 
 /**
  * Connect to MongoDB database
