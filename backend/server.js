@@ -47,14 +47,29 @@ app.use(
   })
 );
 
-// CORS — allow the React dev server and same-origin
+// CORS — allow local dev, configured frontend URL, and Vercel preview/production domains
+const defaultOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:5173",
+];
+const configuredOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map((origin) => origin.trim()).filter(Boolean)
+  : [];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "http://localhost:5173",
-    ],
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (
+        defaultOrigins.includes(origin) ||
+        configuredOrigins.includes(origin) ||
+        /\.vercel\.app$/.test(origin)
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, false);
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

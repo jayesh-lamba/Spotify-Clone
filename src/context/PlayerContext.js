@@ -18,15 +18,21 @@ function getFormatWarning(audioUrl) {
   return null;
 }
 
+function getApiOrigin() {
+  const base = process.env.REACT_APP_API_URL || "http://localhost:5001/api";
+  return base.replace(/\/api\/?$/, "");
+}
+
 // Resolve absolute audio URL for a song
 function resolveAudioUrl(song) {
   if (!song) return "";
   const id = song._id || song.id;
+  const apiOrigin = getApiOrigin();
   let url = song.audioUrl || "";
   if ((!url || url.trim() === "") && id && String(id).length === 24) {
-    url = `http://localhost:5001/api/songs/${id}/stream`;
+    url = `${apiOrigin}/api/songs/${id}/stream`;
   } else if (url.startsWith("/")) {
-    url = `http://localhost:5001${url}`;
+    url = `${apiOrigin}${url}`;
   }
   return url;
 }

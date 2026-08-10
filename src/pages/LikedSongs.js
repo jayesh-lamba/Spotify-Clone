@@ -11,7 +11,7 @@ const FALLBACK_COVER = "https://4kwallpapers.com/images/walls/thumbs_3t/25406.jp
 function LikedSongs() {
     const { isAuthenticated } = useAuth();
     const { playSong, currentSong, isPlaying, togglePlayPause } = usePlayer();
-    const { likedIds, reloadLikedIds } = useLikedSongs();
+    const { likedIds } = useLikedSongs();
 
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(false);

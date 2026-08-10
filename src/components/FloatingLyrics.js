@@ -17,9 +17,6 @@ function FloatingLyrics() {
     const [visible, setVisible] = useState(false);
 
     const lastFetchedId = useRef(null);
-    const prevLineRef = useRef("");
-    const currLineRef = useRef("");
-    const nextLineRef = useRef("");
 
     // ── Show/hide based on playing state ────────────────────────────────────
     useEffect(() => {
