@@ -227,19 +227,13 @@ const streamSong = async (req, res, next) => {
     }
 
     if (!fullPath || !fs.existsSync(fullPath)) {
-      // Fallback to bundled demo audio file if local file is missing on disk (e.g. on cloud host like Render)
-      const demoAudioPath = path.resolve(__dirname, "../public/audio/demo.mp3");
-      if (fs.existsSync(demoAudioPath)) {
-        fullPath = demoAudioPath;
-      } else {
-        console.warn(`[Audio Stream Error] File not found on disk for song "${song.title}" (${song._id}): ${song.filePath || "No filePath"}`);
-        return res.status(404).json({
-          success: false,
-          message: `Audio file for "${song.title}" not found on server disk.`,
-          songId: song._id,
-          filePath: song.filePath,
-        });
-      }
+      console.warn(`[Audio Stream Error] File not found on disk for song "${song.title}" (${song._id}): ${song.filePath || "No filePath"}`);
+      return res.status(404).json({
+        success: false,
+        message: `Audio file for "${song.title}" not found on server disk.`,
+        songId: song._id,
+        filePath: song.filePath,
+      });
     }
 
     const stat = fs.statSync(fullPath);
